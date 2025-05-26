@@ -1,11 +1,9 @@
 package likelion13th.blog.controller;
 
-import likelion13th.blog.dto.AddArticleRequest;
-import likelion13th.blog.dto.ApiResponse;
-import likelion13th.blog.dto.ArticleResponse;
-import likelion13th.blog.dto.SimpleArticleResponse;
+import likelion13th.blog.dto.*;
 import likelion13th.blog.service.ArticleService;
 import lombok.*;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,6 +37,19 @@ public class ArticleController {
 
         return ResponseEntity.ok(new ApiResponse(true, 200, "게시글 조회 성공", response));
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponse> updateArticle(@PathVariable Long id, @RequestBody UpdateArticleRequest request){
+        ArticleResponse response = articleService.updateArticle(id, request);
+        return ResponseEntity.ok(new ApiResponse(true, 204, "게시글 수정 성공", response));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse> deleteArticle(@PathVariable Long id, @RequestBody DeleteRequest request){
+        articleService.deleteArticle(id, request);
+        return ResponseEntity.ok(new ApiResponse(true, 204, "게시글 삭제 성공"));
+    }
+
 
 
 }
